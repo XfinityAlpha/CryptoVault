@@ -1,5 +1,4 @@
-# CryptoVault
-# Cryptography Algorithms
+# CryptoVault : Cryptography Algorithms
 
 ## About
 This repository contains various implementations of classical and modern cryptographic algorithms, including:
