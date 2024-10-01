@@ -1,12 +1,20 @@
-#include<stdio.h>
-#include<string.h>
+#include <stdio.h>
+#include <string.h>
 
-int mult(int x, int y, int n) {
-    int k = 1;
-    int j;
-    for (j = 1; j <= y; j++) 
-        k = (k * x) % n;
-    return k;
+// Function to perform modular exponentiation
+int mod_exp(int base, int exp, int mod) {
+    int result = 1;
+    base = base % mod; 
+    while (exp > 0) {
+        // If exp is odd, multiply base with result
+        if (exp % 2 == 1) {
+            result = (result * base) % mod;
+        }
+        
+        exp = exp >> 1; 
+        base = (base * base) % mod; 
+    }
+    return result;
 }
 
 int main() {
@@ -16,20 +24,24 @@ int main() {
     printf("Enter message: ");
     scanf("%s", m);
     
+    // Convert message to integers
     for (i = 0; i < strlen(m); i++)
         p[i] = m[i];
-    
-    printf("\nCT = ");
-    for (i = 0; i < strlen(m); i++) 
-        c[i] = mult(p[i], e, n);
-    for (i = 0; i < strlen(m); i++) 
-        printf("%d ", c[i]);
 
+    // Encrypt
+    printf("\nCT = ");
+    for (i = 0; i < strlen(m); i++) {
+        c[i] = mod_exp(p[i], e, n);
+        printf("%d ", c[i]);
+    }
+
+    // Decrypt
     printf("\nPT = ");
-    for (i = 0; i < strlen(m); i++) 
-        p[i] = mult(c[i], d, n);
-    for (i = 0; i < strlen(m); i++) 
+    for (i = 0; i < strlen(m); i++) {
+        p[i] = mod_exp(c[i], d, n);
         printf("%c", p[i]);
-    
+    }
+    printf("\n");
+
     return 0;
 }
